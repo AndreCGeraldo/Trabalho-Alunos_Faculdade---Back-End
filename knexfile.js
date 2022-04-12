@@ -2,7 +2,7 @@ module.exports = {
   development: {
     client: 'better-sqlite3',
     connection: {
-      filename: './data/estoque.db3'
+      filename: './data/faculdade.db3'
     },
     useNullAsDefault: true,    
     migrations: {
