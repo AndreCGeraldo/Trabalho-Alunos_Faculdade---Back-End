@@ -5,7 +5,7 @@ const dbKnex = require("./data/db_config");
 
 router.use(express.json());
 
-// Mostra a listagem dos Cursos
+
 router.get("/", async (req, res) => {
   try {
     const cursos = await dbKnex("cursos").orderBy("id", "desc");
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 
-// Faz a inclusão dos Cursos no Banco
+
 router.post("/", async (req, res) => {
   const { instituicao, nomeCurso, fone } = req.body;
 
@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Faz alteração nos Cursos no banco
+
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
   const { instituicao, nomeCurso, fone } = req.body;
@@ -44,7 +44,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Faz a exclusão dos Cursos no banco
+
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -55,7 +55,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Mostra o resumo das Instituições e cursos
+
 router.get("/resumo", async (req, res) => {
   try {
     const numDeCursos = await dbKnex("cursos").select("instituicao").count({ numero_de_cursos: "id" }).groupBy("instituicao");

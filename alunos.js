@@ -5,7 +5,7 @@ const dbKnex = require("./data/db_config");
 
 router.use(express.json());
 
-// Mostra a listagem dos Alunos
+
 router.get("/", async (req, res) => {
   try {
     const alunos = await dbKnex("alunos").orderBy("id", "desc");
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Faz a inclusão dos alunos do banco
+
 router.post("/", async (req, res) => {
   const { nome, dtnascimento, fone, bairro, cep, curso_id } = req.body;
 
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Faz a alteração dos alunos
+
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
   const { nome, dtnascimento, fone, bairro, cep, curso_id } = req.body;
@@ -43,7 +43,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Faz a exclusão dos alunos
+
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -54,7 +54,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Executa um filtro de pesquisa por palavra-chave de (dtnascimento, bairro, instituição e nome do curso)
+
 router.get("/filtro/:palavra", async (req, res) => {
   const { palavra } = req.params;
   try {
@@ -69,7 +69,7 @@ router.get("/filtro/:palavra", async (req, res) => {
   }
 });
 
-// Mostra os dados dos alunos, cursos e instituição de cada um
+
 router.get("/cursos", async (req, res) => {
   try {
     const alunos = await dbKnex("alunos").select("alunos.id", "nome", "dtnascimento", "alunos.fone", "bairro", "cep", "nomeCurso as nome_curso", "instituicao").innerJoin('cursos', 'curso_id', 'cursos.id')
