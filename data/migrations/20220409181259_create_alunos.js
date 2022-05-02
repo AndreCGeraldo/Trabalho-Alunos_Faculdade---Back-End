@@ -10,8 +10,6 @@ exports.up = function (knex) {
         table.integer("curso_id").notNullable().unsigned();
         table.foreign("curso_id")
             .references("cursos.id");
-            // .onDelete("restrict")
-            // .onUpdate("cascade")
     });
 };
 
