@@ -2,16 +2,16 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-const alunos = require("./alunos")
-const cursos = require("./cursos")
+const routes = require("./routes");
 
+// middleware para aceitar dados no formato JSON 
+app.use(express.json());
+
+app.use(routes);
 
 app.get('/', (req, res) => {
   res.send('Controle de Alunos. Seja Bem-vindo!')
 })
-
-app.use('/alunos', alunos);
-app.use('/cursos', cursos);
 
 
 app.listen(port, () => {
