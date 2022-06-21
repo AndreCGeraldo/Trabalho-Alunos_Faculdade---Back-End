@@ -1,14 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
+const cors = require('cors');
+
 const dbKnex = require("./data/db_config");
 
 router.use(express.json());
 
+router.use(cors());
+
 
 router.get("/", async (req, res) => {
   try {
-    const alunos = await dbKnex("alunos").orderBy("id", "desc");
+    const alunos = await dbKnex("alunos").select("alunos.id", "nome", "dtnascimento", "alunos.fone", "bairro", "cep", "cursos.id as curso_id", "nomeCurso as nome_curso", "instituicao").orderBy("alunos.id", "desc").innerJoin('cursos', 'curso_id', 'cursos.id')
     res.status(200).json(alunos);
   } catch (error) {
     res.status(400).json({ msg: error.message });
@@ -58,8 +62,9 @@ router.delete("/:id", async (req, res) => {
 router.get("/filtro/:palavra", async (req, res) => {
   const { palavra } = req.params;
   try {
-    const alunos = await dbKnex("alunos").select("nome", "dtnascimento", "alunos.fone", "bairro", "cep", "nomeCurso as nome_curso", "instituicao").innerJoin('cursos', 'curso_id', 'cursos.id')
+    const alunos = await dbKnex("alunos").select("alunos.id", "nome", "dtnascimento", "alunos.fone", "bairro", "cep", "nomeCurso as nome_curso", "instituicao").innerJoin('cursos', 'curso_id', 'cursos.id')
       .where("dtnascimento", "like", `%${palavra}%`)
+      .orWhere("nome", "like", `%${palavra}%`)
       .orWhere("bairro", "like", `%${palavra}%`)
       .orWhere("instituicao", "like", `%${palavra}%`)
       .orWhere("nome_curso", "like", `%${palavra}%`)

@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
+const cors = require('cors');
+
 const dbKnex = require("./data/db_config");
 
 router.use(express.json());
 
+router.use(cors());
 
 router.get("/", async (req, res) => {
   try {
@@ -58,7 +61,7 @@ router.delete("/:id", async (req, res) => {
 
 router.get("/resumo", async (req, res) => {
   try {
-    const numDeCursos = await dbKnex("cursos").select("instituicao").count({ numero_de_cursos: "id" }).groupBy("instituicao");
+    const numDeCursos = await dbKnex("cursos").select("instituicao").count({ numero_de_cursos: "id" }).groupBy("instituicao")
     res.status(200).json(numDeCursos);
   } catch (error) {
     res.status(400).json({ msg: error.message });
